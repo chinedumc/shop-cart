@@ -1,6 +1,5 @@
-import {  useEffect, useState } from "react";
-import { ProductContext } from "./productContextFile";
-
+import { useEffect, useState } from "react";
+import { ProductContext } from "./ContextDefFile";
 
 export function ProductProvider({ children }) {
 	const [products, setProducts] = useState([]);
