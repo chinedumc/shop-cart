@@ -1,6 +1,6 @@
 import ProductCard from "./ProductCard";
 import { useContext } from "react";
-import { ProductContext } from "../context/productContext/ContextDefFile";
+import { ProductContext } from "../context/ContextDefFile";
 
 const ProductList = () => {
 	const { products, loading, error } = useContext(ProductContext);
