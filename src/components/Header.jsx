@@ -1,10 +1,22 @@
-import { FaShoppingCart } from "react-icons/fa";
+import {
+	FaArrowAltCircleUp,
+	FaArrowCircleDown,
+	FaArrowCircleUp,
+	FaArrowDown,
+	FaShoppingCart,
+} from "react-icons/fa";
 import { useContext, useState } from "react";
 import { CartContext } from "../context/ContextDefFile";
 
 const Header = () => {
 	const [showDropdown, setShowDropdown] = useState(false);
-	const { cart } = useContext(CartContext);
+	const {
+		cart,
+		removeFromCart,
+		reduceProductInCartByOne,
+		increaseProductInCartByOne,
+		clearCart,
+	} = useContext(CartContext);
 	const itemCount = cart.reduce((acc, item) => acc + item.qty, 0);
 	const total = cart
 		.reduce((acc, item) => acc + item.price * item.qty, 0)
@@ -12,7 +24,7 @@ const Header = () => {
 	return (
 		<header className="bg-white shadow-md p-4 flex justify-between items-center">
 			<h1 className="text-2xl font-bold text-blue-600">Shopper</h1>
-			<div className="relative">
+			<div className="relative  ">
 				<button
 					onClick={() => setShowDropdown(!showDropdown)}
 					className="cursor-pointer"
@@ -34,12 +46,39 @@ const Header = () => {
 								<>
 									<ul className="max-h-60 overflow-y-auto divide-y divide-gray-200">
 										{cart.map((item) => (
-											<li className="flex justify-between items-center py-2">
-												<div>
+											<li
+												className="flex flex-wrap items-center py-2"
+												key={item.id}
+											>
+												<div className="basis-full">
 													<p className="font-semibold">{item.name}</p>
+												</div>
+												<div className=" basis-1/2">
 													<p className="text-sm text-gray-500">
 														{item.qty} x ${item.price}
 													</p>
+												</div>
+												<div className="basis-1/2 flex mb-2 justify-between">
+													<button
+														onClick={() => reduceProductInCartByOne(item.id)}
+														className=" cursor-pointer"
+													>
+														<FaArrowCircleDown />
+													</button>
+
+													<button
+														onClick={() => removeFromCart(item.id)}
+														className="text-sm text-red-500 hover:underline"
+													>
+														Remove
+													</button>
+
+													<button
+														onClick={() => increaseProductInCartByOne(item.id)}
+														className=" cursor-pointer"
+													>
+														<FaArrowCircleUp />
+													</button>
 												</div>
 											</li>
 										))}
@@ -47,6 +86,13 @@ const Header = () => {
 									<div className="mt-4 flex justify-between font-semibold">
 										<span>Total:</span> <span>${total}</span>
 									</div>
+
+									<button
+										onClick={clearCart}
+										className="mt-3 w-full bg-red-500 text-white py-1 rounded transition hover:bg-red-600"
+									>
+										Clear Cart
+									</button>
 								</>
 							)}
 						</div>
